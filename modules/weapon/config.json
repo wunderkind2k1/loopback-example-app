@@ -1,0 +1,9 @@
+{
+  "data-source": "oracle",
+  "public": true,
+  "idInjection": false,
+  "oracle": {
+    "schema": "BLACKPOOL",
+    "table": "PRODUCT"
+  }
+}
