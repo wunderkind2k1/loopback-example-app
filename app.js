@@ -3,7 +3,6 @@
  */
 
 var asteroid = require('asteroid')
-  , async = require('async')
   , app = module.exports = asteroid()
   , fs = require('fs')
   , path = require('path')
@@ -17,44 +16,31 @@ function loadModules(callback) {
   var modules = {};
   var rootpath = path.resolve(__dirname, 'modules');
 
-  async.waterfall([
-    function (_callback) {
-      fs.readdir(rootpath, _callback);
-    },
-    function (fragments, _callback) {
-      async.map(fragments, function (fragment, __callback) {
-        var fullpath = path.join(rootpath, fragment);
-        var mod = require(fullpath);
-        var name = fragment.slice(0, fragment.length - path.extname(fragment).length);
-        var create = (mod && mod.create) || mod;
+  fs.readdir(rootpath, function (err, fragments) {
+    fragments.map(function (fragment) {
+      var fullpath = path.join(rootpath, fragment);
+      var mod = require(fullpath);
+      var result;
 
-        if (typeof create !== 'function') {
-          return __callback(null, null);
-        }
+      if (typeof mod === 'function') {
+        result = mod();
+      } else if (mod && typeof mod.create === 'function') {
+        result = mod.create();
+      }
 
-        create(function (err, result) {
-          modules[name] = result;
-          __callback(null, [mod, result]);
-        });
-      }, _callback);
-    },
-    function (results, _callback) {
-      async.each(results, function (arr, __callback) {
-        if (!arr) {
-          return __callback();
-        }
+      fragment = fragment.slice(0, fragment.length - path.extname(fragment).length);
+      modules[fragment] = result;
+      return [mod, result];
+    }).forEach(function (arr) {
+      var mod = arr[0];
+      var result = arr[1];
+      if (mod && typeof mod.link === 'function') {
+        mod.link(result, app, modules);
+      }
+    });
 
-        var mod = arr[0];
-        var result = arr[1];
-
-        if (mod && typeof mod.link === 'function') {
-          mod.link(result, app, modules, __callback);
-        } else {
-          __callback();
-        }
-      }, _callback);
-    }
-  ], callback);
+    callback(null, modules);
+  });
 }
 
 loadModules(function (err, modules) {

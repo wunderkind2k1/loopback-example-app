@@ -4,7 +4,7 @@
 
 var asteroid = require('asteroid');
 
-module.exports = function (callback) {
+module.exports = function () {
   var ds = null;
 
   if(process.env.NODE_ENV === 'test') {
@@ -24,5 +24,5 @@ module.exports = function (callback) {
     });
   }
 
-  return callback(null, ds);
+  return ds;
 };

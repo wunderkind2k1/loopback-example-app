@@ -2,11 +2,11 @@ var asteroid = require('asteroid');
 var properties = require('./properties');
 var config = require('./config');
 
-function create(callback) {
-  return callback(null, asteroid.createModel('weapon', properties, config));
+function create() {
+  return asteroid.createModel('weapon', properties, config);
 }
 
-function link(Weapon, app, modules, callback) {
+function link(Weapon, app, modules) {
   Weapon.attachTo(modules[config['data-source']]);
 
   if (config.public) {
@@ -19,8 +19,6 @@ function link(Weapon, app, modules, callback) {
     // import data
     require('../../test-data/import')(Weapon);
   }
-
-  callback(null);
 }
 
 module.exports = {
