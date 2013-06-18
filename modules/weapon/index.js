@@ -1,29 +1,20 @@
 var asteroid = require('asteroid');
 var properties = require('./properties');
 var config = require('./config');
+var Weapon = asteroid.createModel('weapon', properties, config);
+var dataSource = require('../' + config['data-source']);
 
-function create(callback) {
-  return callback(null, asteroid.createModel('weapon', properties, config));
+Weapon.attachTo(dataSource);
+
+if (config.public) {
+  global.app.model(Weapon);
 }
 
-function link(Weapon, app, modules, callback) {
-  Weapon.attachTo(modules[config['data-source']]);
+if(process.env.NODE_ENV === 'test') {
+  console.log('-----TEST-----');
 
-  if (config.public) {
-    app.model(Weapon);
-  }
-
-  if(process.env.NODE_ENV === 'test') {
-    console.log('-----TEST-----');
-
-    // import data
-    require('../../test-data/import')(Weapon);
-  }
-
-  callback(null);
+  // import data
+  require('../../test-data/import')(Weapon);
 }
 
-module.exports = {
-  create: create,
-  link: link
-};
+module.exports = Weapon;
