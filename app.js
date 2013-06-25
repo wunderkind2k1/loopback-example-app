@@ -2,19 +2,11 @@
  * App Dependencies.
  */
 
-var asteroid = require('asteroid')
-  , async = require('async')
-  , app = module.exports = asteroid()
+var async = require('async')
   , fs = require('fs')
   , path = require('path')
   , request = require('request')
   , TaskEmitter = require('sl-task-emitter');
-
-// HACK
-global.app = app;
-
-// expose a rest api
-app.use(asteroid.rest());
 
 function loadModules(callback) {
   var modules = {};
@@ -31,6 +23,3 @@ function loadModules(callback) {
 }
 
 loadModules();
-
-// start the server
-app.listen(3000);

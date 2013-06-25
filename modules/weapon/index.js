@@ -3,11 +3,12 @@ var properties = require('./properties');
 var config = require('./config');
 var Weapon = asteroid.createModel('weapon', properties, config);
 var dataSource = require('../' + config['data-source']);
+var app = require('../app');
 
 Weapon.attachTo(dataSource);
 
 if (config.public) {
-  global.app.model(Weapon);
+  app.model(Weapon);
 }
 
 if(process.env.NODE_ENV === 'test') {
