@@ -2,7 +2,7 @@
   "memory": {
   },
   "oracle": {
-    "connector": "asteroid-connector-oracle",
+    "connector": "loopback-connector-oracle",
     "host": "166.78.158.45",
     "database": "XE",
     "username": "blackpool",
