@@ -33,7 +33,8 @@
   "scripts": {
     "start": "node app",
     "install": "node build/readme.js",
-    "test": "mocha -b -R spec"
+    "test": "mocha -b -R spec",
+    "bundle-pack": "make -f deploy/npm-bundle-pack.mk"
   },
   "author": "Ritchie Martori",
   "private": false,
