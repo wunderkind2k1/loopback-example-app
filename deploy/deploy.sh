@@ -22,9 +22,13 @@ function run() {
     # ASSUMPTION: /apps/<NAME> is writable by deploying user
     cat $TARBALL | ssh -p $port $as@$to tar -C /apps/$APP_NAME --strip-components 1 -xzf -
     # ASSUMPTION: /etc/init/<NAME>.conf is writable by deploying user
-    scp -P $port deploy/${APP_NAME}.conf $as@$to:/etc/init/${APP_NAME}.conf
+    cat deploy/upstart.conf | \
+        sed -e "s/APP_NAME/$APP_NAME/g" | \
+        sed -e "s/DEPLOYER/$as/g" | \
+        ssh -p $port $as@$to "cat - > /etc/init/${APP_NAME}.conf"
     # ASSUMPTION: deploying user has sudo permission for at least /sbin/initctl
-    ssh -p $port $as@$to "sudo /sbin/initctl restart $APP_NAME || \
+    ssh -p $port $as@$to "sudo /sbin/initctl reload $APP_NAME; \
+                          sudo /sbin/initctl restart $APP_NAME || \
                           sudo /sbin/initctl start $APP_NAME"
 }
 
