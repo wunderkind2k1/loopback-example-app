@@ -29,6 +29,11 @@ function do_check() {
 function do_run() {
     to=$1; as=$2; port=$3
 
+    if [[ ! -f "${APP_NAME}.tgz" ]]; then
+        echo "${APP_NAME}.tgz not found, please run 'npm run bundle-pack'"
+        exit 1
+    fi
+
     if [[ -z "$as" ]]; then
         as=`id -un`
     fi
