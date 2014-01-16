@@ -31,7 +31,7 @@ function do_run() {
 
     if [[ ! -f "${APP_NAME}.tgz" ]]; then
         echo "${APP_NAME}.tgz not found, please run 'npm run bundle-pack'"
-        exit 1
+        exit
     fi
 
     if [[ -z "$as" ]]; then
