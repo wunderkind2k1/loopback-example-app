@@ -53,7 +53,7 @@ function do_run() {
         sed -e "s/DEPLOYER/$as/g" | \
         ssh -p $port $as@$to "cat - > /etc/init/${APP_NAME}.conf"
 
-    echo "Reloading/Restarting Upstart job: $APP_NAME"
+    echo "Reloading/Restarting/Starting Upstart job: $APP_NAME"
     # ASSUMPTION: DEPLOYER has sudo permission to run /sbin/initctl
     ssh -p $port $as@$to "sudo /sbin/initctl reload $APP_NAME; \
                           sudo /sbin/initctl restart $APP_NAME || \
