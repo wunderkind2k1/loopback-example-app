@@ -34,8 +34,8 @@
     "start": "node app",
     "install": "node build/readme.js",
     "test": "mocha -b -R spec",
-    "bundle-pack": "make -f deploy/npm-bundle-pack.mk",
-    "deploy": "deploy/deploy.sh"
+    "bundle-pack": "sh deploy/npm-bundle-pack.sh",
+    "deploy": "sh deploy/deploy.sh"
   },
   "author": "Ritchie Martori",
   "private": false,
