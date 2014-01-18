@@ -171,3 +171,43 @@ To run the application at port 3002 with Oracle:
 
 > DB=oracle PORT=3002 node app
 
+### Deploy the application
+
+The sample application includes some `npm run` commands that may be useful for
+deploying to a remote server. For the sake of simplicity, these scripts assume
+your workstation and server are binary compatible, which allows you to forego
+the need for a compiler on the server.
+
+To bundle all of the application's dependencies (including compiled modules)
+into a single `sls-sample-app.tgz` for deployment, run:
+
+> npm run bundle-pack
+
+To deploy the archive to a remote server via ssh and configure it as an Upstart
+job, run:
+
+> npm deploy --to=your-server
+
+In addition to `--to`, the deploy command supports the following optional
+parameters:
+
+- `--db=`: sets `DB` environment variable in deployment
+  - default: _blank_ (uses `memory` above)
+- `--port=`: sets `PORT` environment variable in deployment
+  - default: 3000
+- `--as=`: name of the application in startup script and deploy
+  - default: `name` from `package.json`
+- `--deployer=`: user for ssh as well as running the application under
+  - default: current user
+- `--ssh-port=`: alternative port to connect to ssh with
+  - default: 22
+
+#### Running LoopBack applications using Upstart
+
+Rather than using a separate supervisor like `forever`, `pm2`, or similar, the
+deploy command uses Upstart to keep the application running and to manage
+capturing logs. Upstart is used by several Linux distributions, including
+Ubuntu, CentOS, and Amazon Linux.
+
+See `deploy/upstart.conf` for an annotated Upstart job template you can
+customize to run any LoopBack application.
