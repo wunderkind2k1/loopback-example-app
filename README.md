@@ -170,24 +170,23 @@ Google's location API is used to return the users city from a given zip or lat/l
 
 ### Project files
 
-The project is composed from multiple components.
+The project is composed from multiple subdirectories.
 
- - `models/` contains definition of models and implementation of custom model
+ - `common/` contains code that can be shared between the server and the
+   client. This is the place for model definitions and the code of custom model
    methods.
 
- - `rest/` contains the REST API server, it exposes the shared models
-   via REST API.
-
- - `website/` contains a simple single-page-application that is served
+ - `client/` contains a simple single-page-application that is served
   when users open the project in the browser.
 
- - `server/` is the main HTTP server that brings together all other components.
+ - `server/` is the LoopBack server that provides REST API, API Explorer,
+  the SPA client and all other features.
 
- - `sample-data/` contains a set of sample models that are used to initialize
-  the database with some data.
+ - `server/sample-data/` contains a set of sample models that are used
+  to initialize the database with some data.
 
- - `test/` provides few basic unit-tests to verify that the server provides
-  the expected API.
+ - `server/test/` provides few basic unit-tests to verify that the server
+  provides the expected API.
 
 Refer to
 [Creating a LoopBack application](http://docs.strongloop.com/display/LB/Creating+a+LoopBack+application)

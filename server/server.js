@@ -16,7 +16,7 @@ boot(app, __dirname);
 // passing the static middleware are hitting the file system
 // Example:
 //   app.use(loopback.static(path.resolve(__dirname', '../client-app')));
-var websitePath = require('path').resolve(__dirname, '../website');
+var websitePath = require('path').resolve(__dirname, '../client');
 app.use(loopback.static(websitePath));
 
 // Requests that get this far won't be handled
